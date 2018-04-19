@@ -41,7 +41,9 @@ int main(){
 		std::cout << *myItr << "   ";
 		++myItr;
 	}
-	
+	//Make a copy of this original vector
+	std::vector<int> myVectorTwo = myVector;
+
 	std::cout << "\n\n";
 	std::vector<int> repeatedVector;
 
@@ -76,8 +78,8 @@ int main(){
 	}
 	
 
-
-	std::cout <<"\n\nWe will now use a better technique ot solve this problem.\n\n" << std::endl;
+	std::cout <<"\n\nNote: That the element in the array are integers between: 1 <= x <= array.size()"<< std::endl;
+	std::cout <<"We will now use a better technique to solve this problem.\n\n" << std::endl;
 
 	//Be Clever and solve it in: O(n) time complexity and O(1) space complexity
 	//We will the the markings by making values negative
@@ -87,7 +89,7 @@ int main(){
 	  
 	  //Check if the value has already been found to be repeated
 
-	  if(!findInSet( checkSet, myVector[r]) ){
+	  if(!findInSet( checkSet, abs(myVector[r])) ){
 		//Get the value for the future index position, use absolute value
 		theValue = abs(myVector[r]) - 1;
 
@@ -105,6 +107,45 @@ int main(){
 	  }
 	}
 	
+	checkSet.clear();
+ 	//Problem: Display the elements that are repeated in the array
+	//Note: The elements in the array will be between:   0 <= x <= array.size() - 1
+
+
+	std::cout <<"\n\nSame problem, but now the element in the array will be between: 0 <= x <= array.size() -1\n\n" << std::endl;
+
+	//Be Clever and solve it in: O(n) time complexity and O(1) space complexity
+	//We will the the markings by making values negative
+	theValue =0;
+	
+	for(int r = 0; r < myVectorTwo.size(); r++ ){
+	  
+	  //Check if the value has already been found to be repeated
+
+	  if(!findInSet( checkSet, abs(myVectorTwo[r]))){
+		//Get the value for the future index position, use absolute value
+		theValue = abs(myVectorTwo[r]);
+
+		//Check if the value of the given index is already a negative value
+		//Use that index position to make it into a negative value
+		if(myVectorTwo[theValue] < 0){
+			//If the value is negative then it has this index has been marked before
+			std::cout << "Repeated Element: " << theValue << std::endl;  
+			checkSet.insert(theValue );
+		} else {
+			//Mark the given position
+			myVectorTwo[theValue] = myVectorTwo[theValue]*(-1);
+		}
+
+	  }
+	}
+	
+
+
+
+
+
+
 
 	return 1;
 }
@@ -135,15 +176,15 @@ bool findInSet(std::set<int> &theSet, int theValue){
 	}
 
 
-
-
 	std::set<int>::iterator myItr = theSet.begin();
 	std::set<int>::iterator myItrEnd = theSet.end();
 
 	while(myItr != myItrEnd)
 	{
+
 		if(*myItr == theValue)
 		{
+			
 			return 1; 
 		}
 		++myItr;
