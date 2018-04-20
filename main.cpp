@@ -8,7 +8,8 @@
 //Function Prototypes
 bool findInVector(std::vector<int> &theVector, int theValue);
 bool findInSet(std::set<int> &theSet, int theValue);
-
+void reverseTheString(std::string &theString);
+void solveDivisibility(int x);
 
 
 int main(){
@@ -143,8 +144,48 @@ int main(){
 
 
 
+	//Problem:Reverse a String.
+	std::cout << "\n\nWe will now solve the Reverse the String problem.\n" << std::endl;
 
+	//Get a string with random characters. The size of the string will be between: (5-50)
+	std::cout << "Enter the size of the string: ";
+	int stringSize;
+	std::cin >> stringSize;
 
+	std::string originalString;
+	//Create the string with the given length
+	int decimalNumber;
+	for(int k = 0; k < stringSize; k++)
+	{
+		//Use the rand function to get a character with ASCII values: (97-122)
+		decimalNumber = (rand() % 26) + 97;
+	       //Convert the decimal number into a character and add it to the orginal string
+	       originalString = originalString  + (char) decimalNumber;	
+	}
+	std::cout << "\nThe original string is: \n" << originalString << std::endl;
+
+	reverseTheString(originalString);
+
+	std::cout << "\nWe have reversed the string: " << std::endl;
+	std::cout << originalString << "\n\n";
+
+	//Problem: Divisibility, Check the values from 1 to x
+	//If divisible by 3 and 5: print "FizzBuzz"
+	//If only divisible by 3: print "Fizz"
+	//If only divisible by 5: print "Buzz"
+	//else just print the number.
+	
+	// Get the value of x
+	std::cout << "We will now solve the problem of divisibility(Up to the value of x)"<< std::endl;
+	
+	std::cout << "Enter the value of x: ";
+	int x;
+	std::cin >> x;
+	
+	std::cout << "\n\nDo divisibility up to the number: " << x << "\n";
+	solveDivisibility(x);
+
+	std::cout << "\n\n";
 
 
 	return 1;
@@ -191,4 +232,55 @@ bool findInSet(std::set<int> &theSet, int theValue){
 	}
 	return 0;
 
+}
+
+
+
+void reverseTheString(std::string &theString){
+
+	//We have passed the string by reference, that way we can modify the string in this function
+	int size = theString.length();
+	int halfSize = size / 2;
+	char tempCharacter;
+	for(int i = 0 ; i < halfSize; i ++ ){
+		
+		//Do the switch
+		//Place the first character into a temporary variable
+		tempCharacter = theString[i];
+		//Place the last character into the first position
+		theString[i] = theString[size-1-i];
+		//Place the first character into the last position, which is our temporary variable
+		theString[size-1-i] = tempCharacter;
+	}
+	return;
+
+}
+
+
+void solveDivisibility(int x){
+	if (x < 1)
+	{	
+		std::cout << "The Number is too small.\nIt has to be bigger than 0\n";
+	}
+	for(int i = 1; i <= x; i++ )
+	{
+		if( (i%3 == 0) &&  (i%5 == 0) )
+		{
+			std::cout << "FizzBuzz\n";
+		}
+		else if (i %3 == 0)
+		{
+			std::cout << "Fizz\n"; 
+
+		}
+		else if (i % 5 == 0)
+		{
+			std::cout << "Buzz\n";
+		}
+		else{
+			std::cout  << i << "\n";
+		}
+	}
+
+	return;
 }
