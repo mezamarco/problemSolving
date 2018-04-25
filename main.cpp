@@ -11,6 +11,7 @@ bool findInSet(std::set<int> &theSet, int theValue);
 void reverseTheString(std::string &theString);
 void solveDivisibility(int x);
 
+int getChange(std::vector<int> &myVector, int x);
 
 int main(){
 
@@ -188,6 +189,40 @@ int main(){
 	std::cout << "\n\n";
 
 
+
+
+	//Problem: Making change
+	//Given an input x, 
+	//write a function to determine the minimum number of coins 
+	//required to make that exsact amount of change
+
+
+	//First create a vector with our possible coins
+	std::vector<int> vect = {25,10,5,1};
+	
+	//Some actual examples of input and output are:
+	//11 -> 2 coins
+	//26 -> 2 coins
+	//33 -> 5 Coins
+	
+	
+	// We will solve this problem with a recursive function
+        std::cout << "We will now Solve the Make Change Problem.\n" << std::endl;
+	int changeNumber;
+	std::cout << "Enter the Change value so we can break it down: ";
+	std::cin >> changeNumber;
+
+	//Call the recursive function 
+	int minCoins = getChange(vect, changeNumber);
+
+	std::cout << "Breaking down: " << changeNumber << std::endl;
+	std::cout << "The Minimum number of coins is: " << minCoins << "\n\n\n"; 
+
+
+
+	
+	
+
 	return 1;
 }
 
@@ -284,3 +319,36 @@ void solveDivisibility(int x){
 
 	return;
 }
+ 
+//Our recursive function
+int getChange(std::vector<int> &myVector, int x){
+	
+	if(x == 0){
+		return 0;
+	}
+	std::cout << "Entering the Function for: " << x << std::endl;
+	int min = x;
+
+	//FOr each coin in the array of coins
+	for(int theCoin: myVector){
+		std::cout << "Trying for coin: " << theCoin;
+
+		if( x - theCoin >= 0)
+		{
+			std::cout << "\tSuccess\nMove to another function:  "<< x- theCoin <<  "\n"; 
+			int c = getChange(myVector, x - theCoin);
+			if( min > c + 1)
+			{
+				min = c + 1;
+			}
+		}
+		else{
+			std::cout <<"\tFailed: Return: " << min << "\n";
+		       	
+		}
+	}
+	
+
+	return min;
+}
+
