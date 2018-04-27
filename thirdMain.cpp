@@ -1,6 +1,10 @@
-#include <iostream>
-#include <chrono>      //To determine te run time of a function
+// This is were I will solve all my Dynamic Programming Problems
 
+
+//#include <iostream>
+#include <chrono>      //To determine te run time of a function
+#include <limits>
+#include <iostream>
 using namespace std::chrono;
 
 //Function Prototypes
@@ -9,6 +13,12 @@ using namespace std::chrono;
 int fibSeq(int n);
 int efficientFibSeq(int n);
 
+int makeChange(int n);
+
+int efficientMakeChange(int n);
+
+
+int const coinsArr[4] = {25,10,5,1};
 
 int main(){
 
@@ -46,6 +56,34 @@ int main(){
 
 
 
+
+
+	std::cout << "We will now solve the Make Change Problem" <<  std::endl;
+	std::cout << "We will Make Change for the value: ";
+	int changeValue;
+	std::cin >> changeValue;
+
+	
+	std::chrono::high_resolution_clock::time_point slowTime10 = std::chrono::high_resolution_clock::now();
+	
+	int slowMinCoinsNeeded = makeChange(changeValue);
+	std::cout << "\n\nThe slow answer to makeChange(" << changeValue << ") = " <<slowMinCoinsNeeded; 
+
+ 	std::chrono::high_resolution_clock::time_point slowTime20 = std::chrono::high_resolution_clock::now();
+
+
+	auto durationSlow00 = std::chrono::duration_cast<microseconds>( slowTime20 - slowTime10 ).count();
+	std::cout << "\nThe running time was: " << durationSlow00;
+
+	std::chrono::high_resolution_clock::time_point fastTime10 = std::chrono::high_resolution_clock::now();
+	int fastMinCoinsNeeded = efficientMakeChange(changeValue);
+	std::cout << "\n\nThe fast answer to makeChange(" <<changeValue << ") = " << fastMinCoinsNeeded; 
+	std::chrono::high_resolution_clock::time_point fastTime20 = std::chrono::high_resolution_clock::now();
+
+	auto durationFast00 = std::chrono::duration_cast<microseconds>( fastTime20 - fastTime10 ).count();
+	std::cout << "\nThe running time was: " << durationFast00 << "\n\n\n";
+	
+	std::cout << "\n\n";
 }
 
 
@@ -83,3 +121,72 @@ int efficientFibSeq(int n){
 
 	return fibArr[n];
 }
+
+
+int makeChange(int n){
+
+	if(n==0)
+		return 0;
+
+	//Set minCoins to infinity
+	int minCoins = std::numeric_limits<int>::max();
+
+	for(int coin: coinsArr){
+	
+		//Check for valid coins. 
+		//Valid if the subtraction will not give us a negative value
+		if( n - coin >= 0 ){
+			int currMinCoins = makeChange(n-coin);
+
+			if(currMinCoins < minCoins){
+				minCoins = currMinCoins;
+			}
+		
+		}
+	
+	}	
+	//Add back the coins that was used for recursion.
+	return minCoins + 1;
+
+}
+
+
+
+//FIGURE OUT HOW THIS WORKS ?????
+
+int efficientMakeChange(int n){
+	
+ 	//Create our array of Answers
+	int answersArr[n+1];
+	answersArr[0] = 0;
+
+
+	for(int i = 1; i <= n ; i++){
+
+		//Set minCoins equal to infinity.
+		int minCoins = std::numeric_limits<int>::max();
+
+	
+		for(int coin : coinsArr){
+	
+			//For valid coins only
+			if(i - coin >= 0){
+				int currentMinCoins = answersArr[i-coin] + 1;
+
+				if(currentMinCoins < minCoins)
+				{
+					minCoins = currentMinCoins;
+				}
+		
+			}
+		}	
+		//Store the answer
+		//std::cout <<"Storing into " << i <<" : " <<minCoins << std::endl; 
+		answersArr[i] = minCoins;
+	}
+	//The answersArr have been populated
+	//Return the wanted answer we are done.
+	return answersArr[n];
+}
+
+
