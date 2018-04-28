@@ -5,6 +5,8 @@
 #include <chrono>      //To determine te run time of a function
 #include <limits>
 #include <iostream>
+#include <unordered_map>
+
 using namespace std::chrono;
 
 //Function Prototypes
@@ -18,7 +20,14 @@ int makeChange(int n);
 int efficientMakeChange(int n);
 
 
+int sum(int a , int b);
+bool isAnagram(std::string &s1, std::string &s2);
+
+
+
 int const coinsArr[4] = {25,10,5,1};
+
+
 
 int main(){
 
@@ -84,6 +93,42 @@ int main(){
 	std::cout << "\nThe running time was: " << durationFast00 << "\n\n\n";
 	
 	std::cout << "\n\n";
+
+
+
+
+	std::cout << "We will now solve the Addition of two numbers, but without using the operators.\n";
+
+	std::cout << "Enter the first value for the summation: ";
+	int a;
+	int b;
+	std::cin >> a;
+	
+	std::cout << "Enter the second value for the summation: ";
+	std::cin >> b;
+
+	std::cout << "The sum: " << a << " + " << b << " = " << sum(a,b);
+
+	std::cout <<"\n\n";
+
+
+
+
+	std::cout << "We will now solve the ANAGRAMS problem.\n";
+	std::string s1;
+	std::string s2;
+
+
+
+	std::cout << "What will be the first String: ";
+	std::cin >> s1;
+	std::cout << "\nWhat will be the second String: ";
+	std::cin >> s2;
+
+	std::cout << "\n\nDo we have an Anagram(" << s1 << "," << s2 << ") = " << isAnagram(s1,s2)<<"\n\n\n";
+
+
+
 }
 
 
@@ -152,7 +197,6 @@ int makeChange(int n){
 
 
 
-//FIGURE OUT HOW THIS WORKS ?????
 
 int efficientMakeChange(int n){
 	
@@ -190,3 +234,65 @@ int efficientMakeChange(int n){
 }
 
 
+int sum(int a , int b){
+
+	//Our b will be modified with each recursion. When b is zero then we are done. 
+	if(b == 0){
+		return a;
+	}	
+	//Use recursion to solve this problem
+	//Do the proper binary addition using xor
+	//Xor will do the addition, but it will not carry over the 
+
+	int partialSum = a^b;
+
+	//The partial sum is done, but now we have to add in the carry over bits
+	//
+	int carry = (a & b) << 1;
+
+	return sum(partialSum, carry);
+}
+
+bool isAnagram(std::string &s1, std::string &s2){
+
+
+	//Compare the size of the strings, if not equal then we do not have an anagram
+	if(s1.length() != s2.length())
+		return 0;
+
+
+	//NOTE: Every int is initialized equal to zero
+	std::unordered_map<char, int> myMap;
+
+	//Populate the map using the first string
+	for(int i = 0; i < s1.length(); i++)
+	{
+		//Make sure we are reading a lowercase character
+		char ch = tolower(s1.at(i));
+		//Add a to key to this character will be the number 1.
+		myMap[ch] = myMap[ch] + 1;
+	}
+
+	//Now use the second string to determine if we have that character inside our map
+	for(int j = 0; j < s2.length(); j++){
+	
+		//Make sure we are dealing with a lowercase character
+		char theChar = tolower(s2.at(j));
+
+		if(!myMap[theChar])
+			return 0;
+		else{
+			//Reduce the given character by one
+			myMap[theChar] = myMap[theChar] - 1;
+
+			if(myMap[theChar] == -1)
+				return 0;
+		}
+
+
+	}
+
+	//If we reach here than we have an anagram
+	return 1;
+
+}
