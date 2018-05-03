@@ -6,6 +6,8 @@
 #include <limits>
 #include <iostream>
 #include <unordered_map>
+#include <vector>
+
 
 using namespace std::chrono;
 
@@ -23,6 +25,9 @@ int efficientMakeChange(int n);
 int sum(int a , int b);
 bool isAnagram(std::string &s1, std::string &s2);
 
+
+void threeSum(std::vector<int> & theVector);
+void bubbleSort(std::vector<int> & vect);
 
 
 int const coinsArr[4] = {25,10,5,1};
@@ -126,6 +131,42 @@ int main(){
 	std::cin >> s2;
 
 	std::cout << "\n\nDo we have an Anagram(" << s1 << "," << s2 << ") = " << isAnagram(s1,s2)<<"\n\n\n";
+
+
+
+
+
+
+
+
+	//We will now solve the three sum problem
+	//GIven an array of integers 
+	//write a function that will return all the sets where a+b+c ==0 
+	
+	//Lets get an array and then apply the threesum function to it
+	std::cout << "We will now solve the THREE SUM PROBLEM.\n" << std::endl;
+	std::cout << "How big will the size of the array be:  " << std::endl;
+	int arraySize;
+	std::cin >> arraySize;
+
+	std::vector<int> theVect;
+	//Lets populate the array with random elements
+	for(int m=0; m< arraySize; m++){
+	
+		//Get a random value and then place it in our vector 
+		//Random value range: (-20 to 20)
+		int randomValue = (rand() % 41)- 20 ;
+		theVect.push_back(randomValue);
+
+	}
+	std::cout << "\n\nThe Vector holds:\n";
+	//Let the user see the random elements of the vectors
+	for(int val : theVect){
+		std::cout << val << "  ";
+	}
+
+	//Use the function to print out all the solutions tot the three sum problem
+	threeSum(theVect);
 
 
 
@@ -295,4 +336,124 @@ bool isAnagram(std::string &s1, std::string &s2){
 	//If we reach here than we have an anagram
 	return 1;
 
+}
+
+
+//Print out all the three sets that will give me the sum of zero
+void threeSum(std::vector<int> & theVector){
+
+	//Our vector must be sorted in order to solve this problem
+	//In this case we will use the bubble sort method
+	//We pass by reference and therefore our bubble sort function will modify the vector
+	bubbleSort(theVector);
+	
+	//Our bubble sort function takes O(n^2) time. 
+	//Our vector has been sorted and now we must solve the problem
+	
+	
+	//Create a vector of vectors
+	std::vector<std::vector<int>> theAnswerVector;
+
+	for (int i = 0; i < theVector.size() - 3; i++ )
+	{
+		//Avoid the same element when traversing the vector
+		//We need to make sure that the current element is larger than the previous element  
+		if(i == 0 || theVector[i] > theVector[i-1])
+		{
+			//Now we need to keep track of our elements.
+			//The start will be the next value indeces after i  
+			//THe end will be the last value of our array.
+			int start = i+1;
+			int end = theVector.size() - 1;
+			int sum = 0;
+
+			while(start < end){
+				
+				sum = theVector[i]  + theVector[start] + theVector[end];
+				
+				
+				//We have our three values and now check if we have a sum of zero
+				if(sum == 0){
+					//We found a solution set and store this vector of three into
+					//the answer vector
+					std::vector <int> oneSolution;
+
+				       	oneSolution.push_back(theVector[i]);
+				       	oneSolution.push_back(theVector[start]);
+				       	oneSolution.push_back(theVector[end]);
+					
+					theAnswerVector.push_back(oneSolution);
+				}
+
+				//If we dont get a sum of zero
+				//We must now move the start value or the end value
+				
+
+				//If the sum value is to low then move the start the right
+				if( sum  < 0)
+				{
+				     //We must increment our start index, but we must avoid 
+				     //case of having the same value after shifting to the right
+				     //and remember we do not want to pass the end value
+				     int currentStart = start;
+				     while(theVector[currentStart] == theVector[start]  && start < end)
+				     {
+					++start;
+				     } 
+
+				}
+				else{
+				     //DO the same but now to the end index
+				     int currentEnd = end;
+				     while(theVector[currentEnd] == theVector[end] && start < end)
+				     {
+				     	--end;
+				     }	
+				}
+
+
+
+			}
+		
+		
+		}
+	}
+
+	
+
+	//We have our vector with all the answers, so lets print out the sets of three that add to zero
+	std::cout << "\n\n\nWe found "<< theAnswerVector.size() << " Solutions:\n";
+	for(int m = 0 ; m < theAnswerVector.size(); m++)
+	{
+		std::cout << m << ":\t[ "; 
+		for(int theValue: theAnswerVector[m])
+		{
+			std::cout << theValue  << " "; 
+		}
+		std::cout << "]\n";
+	
+	}
+}
+
+void bubbleSort(std::vector<int> & vect){
+
+	//For all the elements in the vector except the last two elements
+	for(int i = 0; i < vect.size()-1; i++){
+		//For all the elements in the vector except the last element
+		for(int j = 0; j < vect.size() - 1; j++){
+		
+		
+			//Start comparing the values and move the values accordingly
+			if( vect[j] > vect[j+1])
+			{
+				int temp = vect[j];
+				vect[j] = vect[j+1];
+				vect[j+1] = temp;
+			}
+
+		}
+	
+		//Do this k-1 steps 
+	}
+	return;
 }
