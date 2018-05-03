@@ -1,6 +1,15 @@
 // This is were I will solve all my Dynamic Programming Problems
 
 
+// I solve 7 problems in this cpp file:
+
+// Fibonacci Sequence(Regular and Dynamic)
+// Make Change (Regular and Dynamic)
+// Summation without an operator, Do the solve using binary manipulations
+// Angram Problem: Are the two strings anagrams
+// three value sum :  Give all the sets where: a + b + c == 0
+
+
 //#include <iostream>
 #include <chrono>      //To determine te run time of a function
 #include <limits>
