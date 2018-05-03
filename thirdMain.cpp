@@ -178,7 +178,6 @@ int main(){
 	threeSum(theVect);
 
 
-
 }
 
 
@@ -363,7 +362,7 @@ void threeSum(std::vector<int> & theVector){
 	//Create a vector of vectors
 	std::vector<std::vector<int>> theAnswerVector;
 
-	for (int i = 0; i < theVector.size() - 3; i++ )
+	for (int i = 0; i < theVector.size() - 2; i++ )
 	{
 		//Avoid the same element when traversing the vector
 		//We need to make sure that the current element is larger than the previous element  
