@@ -1,4 +1,7 @@
-all: main secondMain thirdMain fourthMain
+all: main secondMain thirdMain fourthMain fifthMain
+
+fifthMain: fifthMain.cpp
+	g++ fifthMain.cpp -o fifthMain
 
 fourthMain: fourthMain.cpp
 	g++ fourthMain.cpp -o fourthMain
