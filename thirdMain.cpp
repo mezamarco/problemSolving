@@ -35,10 +35,11 @@ int sum(int a , int b);
 bool isAnagram(std::string &s1, std::string &s2);
 
 
-void threeSum(std::vector<int> & theVector);
+
 void bubbleSort(std::vector<int> & vect);
 
 
+void threeSum(std::vector<int> & theVector);
 int const coinsArr[4] = {25,10,5,1};
 
 
@@ -198,6 +199,9 @@ int fibSeq(int n){
 
 	return(fibSeq(n-1) + fibSeq(n-2) );
 }
+
+
+
 int efficientFibSeq(int n){
 	//Use Dynamic Prgramming to solve this problem.
 	//This means that we will sacrifice memory in order to make our program run faster.
@@ -215,6 +219,7 @@ int efficientFibSeq(int n){
 
 	return fibArr[n];
 }
+
 
 
 int makeChange(int n){
@@ -283,6 +288,10 @@ int efficientMakeChange(int n){
 }
 
 
+
+
+//This is a function where we do the sum of two numbers by using bit manipulation,
+//Note that this is a recursive function.
 int sum(int a , int b){
 
 	//Our b will be modified with each recursion. When b is zero then we are done. 
@@ -309,41 +318,27 @@ bool isAnagram(std::string &s1, std::string &s2){
 	if(s1.length() != s2.length())
 		return 0;
 
-
-	//NOTE: Every int is initialized equal to zero
 	std::unordered_map<char, int> myMap;
 
-	//Populate the map using the first string
-	for(int i = 0; i < s1.length(); i++)
-	{
-		//Make sure we are reading a lowercase character
-		char ch = tolower(s1.at(i));
-		//Add a to key to this character will be the number 1.
+	//Update the map with string one characters
+	for(int i = 0; i < s1.length(); i++){
+		//We need to make sure that we are dealing with hte lower case character
+		char ch = tolower(s1[i]);
+		//Update our map
 		myMap[ch] = myMap[ch] + 1;
 	}
 
-	//Now use the second string to determine if we have that character inside our map
-	for(int j = 0; j < s2.length(); j++){
-	
-		//Make sure we are dealing with a lowercase character
-		char theChar = tolower(s2.at(j));
+	//Reduce the map using the second string
+	for(int j = 0; j < s2.length(); j++)
+	{
+		char ch = tolower(s2[j]);
 
-		if(!myMap[theChar])
-			return 0;
-		else{
-			//Reduce the given character by one
-			myMap[theChar] = myMap[theChar] - 1;
-
-			if(myMap[theChar] == -1)
-				return 0;
-		}
-
-
+		if(myMap[ch] == 0)
+			return false;
+		else
+			myMap[ch] = myMap[ch] - 1;
 	}
-
-	//If we reach here than we have an anagram
-	return 1;
-
+	return true;
 }
 
 

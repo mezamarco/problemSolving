@@ -58,7 +58,7 @@ int main(){
 	//Solve by brute force O(n^2)
 	//Simply compare the elements one by one
 	int firstValue;
-	for(int j = 0; j < myVector.size() - 2 ; j++ ){
+	for(int j = 0; j < myVector.size() - 1 ; j++ ){
 		
 		firstValue = myVector[j];
 
@@ -228,9 +228,7 @@ int main(){
 
 
 
-
-
-
+//Simple problem
 bool findInVector(std::vector<int> &theVector, int theValue){
 	
 	if(!theVector.empty()){
@@ -272,52 +270,36 @@ bool findInSet(std::set<int> &theSet, int theValue){
 
 
 void reverseTheString(std::string &theString){
+	//To reverse the string, I need to consider two index points
+	int i=0;
+	int j = theString.length() - 1;
 
-	//We have passed the string by reference, that way we can modify the string in this function
-	int size = theString.length();
-	int halfSize = size / 2;
-	char tempCharacter;
-	for(int i = 0 ; i < halfSize; i ++ ){
-		
-		//Do the switch
-		//Place the first character into a temporary variable
-		tempCharacter = theString[i];
-		//Place the last character into the first position
-		theString[i] = theString[size-1-i];
-		//Place the first character into the last position, which is our temporary variable
-		theString[size-1-i] = tempCharacter;
+	while(i<j)
+	{
+		int temp = theString[i];
+		theString[i] = theString[j];
+		theString[j] = temp;
+
+		++i;
+		--j;
 	}
 	return;
-
 }
 
 
 void solveDivisibility(int x){
-	if (x < 1)
-	{	
-		std::cout << "The Number is too small.\nIt has to be bigger than 0\n";
-	}
-	for(int i = 1; i <= x; i++ )
-	{
-		if( (i%3 == 0) &&  (i%5 == 0) )
-		{
-			std::cout << "FizzBuzz\n";
-		}
-		else if (i %3 == 0)
-		{
-			std::cout << "Fizz\n"; 
-
-		}
-		else if (i % 5 == 0)
-		{
-			std::cout << "Buzz\n";
-		}
-		else{
-			std::cout  << i << "\n";
-		}
-	}
-
-	return;
+  for(int i = 1; i <= x; i++ )
+  {
+	if( (i%3 == 0) &&  (i%5 == 0) )
+		std::cout << "FizzBuzz\n";
+	else if (i %3 == 0)
+		std::cout << "Fizz\n"; 
+	else if (i % 5 == 0)
+		std::cout << "Buzz\n";
+	else
+		std::cout  << i << "\n";
+  }
+  return;
 }
  
 //Our recursive function

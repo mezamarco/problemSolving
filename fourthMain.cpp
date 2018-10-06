@@ -13,7 +13,7 @@
 void subArrayWithMostZeros(std::vector<int> & myVect , int n);
 
 std::vector<int> twoSumProblem(std::vector<int> & theVect, int targetSum);
-
+int getZeros(int val);
 
 
 int main(){
@@ -93,45 +93,47 @@ int main(){
 
 void subArrayWithMostZeros(std::vector<int> & myVect, int n){
 	
-	std::vector<std::vector<int>> theAnswerVector;
+	std::vector<std::vector<int>> mainVector;
 
 	//Create a sub array
 	std::vector<int> subVector;
 
 	int counter = 0;
 
-	//Split up the vector accordingly
-	for(int i = 0; i < myVect.size(); i++){
 
-		//Place the element into the subVector
-		subVector.push_back(myVect[i]);
-		++counter;
+	//Split up the vector accordingly, be careful about the bounds
+	for(int i = 0; i <= (myVect.size() - n); i++){
+
+		//We will store the product at the nth position of our array
+		int product = 1;
+		int j = i;
+		int limit = i+n;
+
+		//Get n element in into our sub vector [ (0) - (n-1)]
+		while( j< limit){
 		
-		//If we have stored n values into the subVector
-		//then it is time that we put it in our Answer vector
-	
-		if(counter == n){
-
-			//Store this subArray into the AnswerVector
-			theAnswerVector.push_back(subVector);
-	
-			//Clear all the elements from the subVector
-			subVector.clear();
-			counter = 0;	
+			//Determine the product total
+			product = product * myVect[j];
+			//place the current element into the sub vector
+			subVector.push_back(myVect[j]);
+			++j;
 		}
-	
-	
-	
+
+		//We need to save the total product in the nth position of the subVector
+		subVector.push_back(product);
+
+		//Now place this subVector into the main vector.
+		//And clear the subVector
+		mainVector.push_back(subVector);
+		subVector.clear();
 	}
 
-	//The answerVector now hold the subVector of the appropiate size 
-	//Now I must print out all the sub arrays to see what is going on 
-
-	std::cout << "\n\n\nWe found "<< theAnswerVector.size() << " Solutions:\n";
-	for(int m = 0 ; m < theAnswerVector.size(); m++)
+	//Print all the contents of the subVector.
+	std::cout << "\n\n\nWe found "<< mainVector.size() << " Solutions:\n";
+	for(int m = 0 ; m < mainVector.size(); m++)
 	{
 		std::cout << m << ":\t[ "; 
-		for(int theValue: theAnswerVector[m])
+		for(int theValue: mainVector[m])
 		{
 			std::cout << theValue  << " "; 
 		}
@@ -139,11 +141,42 @@ void subArrayWithMostZeros(std::vector<int> & myVect, int n){
 	
 	}	
 
+	//We need to save the correct subArray
+	std::vector<int> answerVector;
+	//Save the index of this main vector that holds our answer.
+	int max = 0;
+	//Check only the values at position n.
+	for(int k = 0; k < mainVector.size(); k++){
+		//Access the given vector from the main vector.
+		std::vector<int>current = mainVector[k];
+
+		int number = current[n];
+
+		//We have the product number, now determine the number of zeros
+
+		int numberOfZeros = getZeros(number);
+
+		if(numberOfZeros > max  ){
+			//Save this vector.
+			answerVector = current;
+			max = numberOfZeros;
+		}
+
+	}
+
+	//We hold the answer vector.
+	std::cout  << "The array that hold the most number of zeros in the total product is: ";
+	
+	std::cout  << "Number of Zeros: " << max  << "\n";
+	for(int val: answerVector){
+		std::cout << val << "   ";
+	}
+
 
 	return;
 
 
-
+	
 }
 
 
@@ -174,8 +207,19 @@ std::vector<int> twoSumProblem(std::vector<int> & nums, int targetSum){
 
 	//If we reach this point, we found no solution, therefore return an empty vector
 	std::vector<int> emptyVect;
-
 	return emptyVect;
-
 }
 
+int getZeros(int val){
+	int count= 0;
+	while(val > 0){
+		//Isolate every single digit and then check if we have a zero.
+		int digit = val%10;
+		val = val /10;
+		//Check if we have a zero digit
+		if(digit == 0)
+			++count;
+
+	}
+	return count;
+}

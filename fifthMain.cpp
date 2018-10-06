@@ -14,8 +14,6 @@ void windowProblem(std::vector<int>& vect, int windowSize);
 void reverseString(std::string & theString);
 
 
-
-
 int main(){
 	
 	std::cout << "We will solve the Display the frequncy problem\n\n";
@@ -26,6 +24,7 @@ int main(){
 	getline(std::cin, myWord);
 
 	//We will use a hash map to solve this problem, therefore use a unordered map container
+	//The given map will have for the key: the character and the value: frequency count
 	std::unordered_map<char, int > myMap;
 
 	//For all the characters in the string
@@ -40,8 +39,6 @@ int main(){
 	}
 
 	//We will use an iterator to print our the characters and their frequencies
-	
-
 	std::unordered_map<char,int>::iterator itr = myMap.begin();
 	std::unordered_map<char,int>::iterator itrEnd = myMap.end();
 
@@ -94,7 +91,8 @@ int main(){
 	getline(std::cin, originalString);
 
 	reverseString(originalString);
-
+	std::cout << "\nReversed string: ";
+	std::cout << originalString;
 	std::cout << "\n\n";
 
 	
@@ -111,24 +109,18 @@ int main(){
 
 		std::cout << "Random value: "<<randomVal << ", ROLLING:   ";
 
-		if(randomVal <= 10){
+		if(randomVal <= 10)
 			std::cout << "1" << "\n"; 	
-		}
-		else if(randomVal <= 20){
+		else if(randomVal <= 20)
 			std::cout << "2" << "\n";
-		}
-		else if(randomVal <= 30){
+		else if(randomVal <= 30)
 			std::cout << "3" << "\n";
-		}
-		else if(randomVal <= 40){
+		else if(randomVal <= 40)
 			std::cout << "4" << "\n";
-		}
-		else if(randomVal <= 50){
+		else if(randomVal <= 50)
 			std::cout << "5" << "\n";
-		}
-		else{	
+		else	
 			std::cout << "6" << "\n";
-		}
 
 	}
 	std::cout << "\n\nWe are done. Bye.\n\n";
@@ -158,7 +150,7 @@ void windowProblem(std::vector<int>& vect, int windowSize){
 
 	//Print the element for each window and then figure the distict elements.
 	
-	for(int i = 0 ; i <= vectSize - windowSize; i++){
+	for(int i = 0 ; i < vect.size() - (windowSize - 1); i++){
 		
 		std::cout << "Window " << i+1 << " : ";	
 		
@@ -219,18 +211,20 @@ void windowProblem(std::vector<int>& vect, int windowSize){
 
 void reverseString(std::string & theString){
 	//Reverse the String 
+	int i = 0;
+	int j = theString.length() -1;
+
+	while( i < j) {
+		char temp = theString.at(i);
+
+		theString.at(i) = theString.at(j);
+		theString.at(j) = temp;
+
+		++i;
+		--j;	
+	}	
 	
-	int stringSize = theString.length();
 
-	std::string reversedString;
 
-	for(int i = 0; i < stringSize ; i++)
-	{
-		reversedString = reversedString + theString.at(stringSize-1-i);
-	}
-
-	std::cout << "\nReverse the String:\n";
-
-	std::cout << reversedString << "\n\n";
 	return;
 }
