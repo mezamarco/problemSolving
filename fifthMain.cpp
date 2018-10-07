@@ -9,6 +9,9 @@
 
 
 //Function Prototype
+
+
+//Count the number of unique elements per window
 void windowProblem(std::vector<int>& vect, int windowSize);
 
 void reverseString(std::string & theString);
@@ -134,77 +137,37 @@ int main(){
 
 void windowProblem(std::vector<int>& vect, int windowSize){
 	
-	//Determine how big our vector is,
-	//If the windowSize is too large then print Invalid window size
-	int vectSize = vect.size();
-	
-	std::unordered_map<int,int> myMap;
-
-	if(vectSize < windowSize){
-		std::cout << "\n\nInvalid input: The windows size is too large\n\n";
+	//Check for a valid window size
+	if(vect.size() < windowSize){
+		std::cout << "The windowSize is too large. Try again.\n\n";
 		return;
+	}	
 
-	}
-
+	//We use a map to determine the unique elements in the given window size.	
+	std::unordered_map<int,int> myMap;
 	int distinctCounter;
 
 	//Print the element for each window and then figure the distict elements.
-	
 	for(int i = 0 ; i < vect.size() - (windowSize - 1); i++){
-		
 		std::cout << "Window " << i+1 << " : ";	
-		
 		for(int j = i; j < windowSize+i; j++){
-				
 			int value = vect[j];
 			std::cout << value << "  ";
 			
-			
-			//If we do not have the element in our map, then pace it in our map.
+			//If we do not have the element in our map, then place it in our map.
 			if(myMap.find(value) == myMap.end()){
-			
 				++distinctCounter;
 				myMap[value] = myMap[value] + 1;
 			}	
 
 
 		}
-/*
-		//Check all the element in the map. If the second value is a 1 then it was seen only
-		//one time
-
-		//lets use an iterator to solve this problem
-		
-
-		std::unordered_map<int,int>:: iterator itr = myMap.begin();
-		std::unordered_map<int,int>:: iterator itrEnd = myMap.end();
-
-		while(itr != itrEnd)
-		{
-			if(itr ->second == 1){
-				++distinctCounter;
-			}
-			++itr;
-		}
-*/		
 		std::cout << "\t\tDistict Counter:  " << distinctCounter << "\n";
-
-
-	
 		//Clear the counter.
 		distinctCounter=0;
-
 		//Clear the map
 		myMap.clear();
-		
-	
-			
-
 	}
-
-
-
-
 
 }
 
@@ -223,8 +186,5 @@ void reverseString(std::string & theString){
 		++i;
 		--j;	
 	}	
-	
-
-
 	return;
 }
